@@ -44,6 +44,9 @@
 .box {
   width: 12.5%;
   height: 12.5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .playerOneScore,
@@ -51,25 +54,37 @@
   display: none;
 }
 
-.board > .box:nth-child(n + 1):nth-child(-n + 8):nth-child(even),
-.board > .box:nth-child(n + 9):nth-child(-n + 16):nth-child(odd),
-.board > .box:nth-child(n + 17):nth-child(-n + 24):nth-child(even),
-.board > .box:nth-child(n + 25):nth-child(-n + 32):nth-child(odd),
-.board > .box:nth-child(n + 33):nth-child(-n + 40):nth-child(even),
-.board > .box:nth-child(n + 41):nth-child(-n + 48):nth-child(odd),
-.board > .box:nth-child(n + 49):nth-child(-n + 56):nth-child(even),
-.board > .box:nth-child(n + 57):nth-child(-n + 64):nth-child(odd) {
-  background: white;
+.whiteBlock {
+  background: #e6c9ab;
 }
 
+.blackBlock {
+  background: #96642c;
+}
 
-.board > .box:nth-child(n + 1):nth-child(-n + 8):nth-child(odd),
-.board > .box:nth-child(n + 9):nth-child(-n + 16):nth-child(even),
-.board > .box:nth-child(n + 17):nth-child(-n + 24):nth-child(odd),
-.board > .box:nth-child(n + 25):nth-child(-n + 32):nth-child(even),
-.board > .box:nth-child(n + 33):nth-child(-n + 40):nth-child(odd),
-.board > .box:nth-child(n + 41):nth-child(-n + 48):nth-child(even),
-.board > .box:nth-child(n + 49):nth-child(-n + 56):nth-child(odd),
-.board > .box:nth-child(n + 57):nth-child(-n + 64):nth-child(even) {
-  background: black;
+.piece:hover {
+  cursor: pointer;
+}
+
+.piece:active {
+  box-shadow: 0px 0px 5px 1px black;
+  transition: 0.05s;
+}
+
+.redPiece {
+  display: block;
+  width: 70%;
+  height: 70%;
+  background: rgb(152, 0, 0);
+  border: 3px solid rgb(104, 0, 0);
+  border-radius: 50px;
+}
+
+.blackPiece {
+  display: block;
+  width: 70%;
+  height: 70%;
+  background: rgb(57, 57, 57);
+  border: 3px solid rgb(8, 8, 8);
+  border-radius: 50px;
 }

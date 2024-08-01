@@ -1,19 +1,19 @@
 .container {
   width: 100vw;
   height: 100vh;
-  background: url("../image/flowerImage.jpg") no-repeat center;
+  background: url("../public/background-picture.webp") no-repeat center;
   background-size: cover;
+  overflow: hidden;
 }
 
-.boardContainer {
-  width: 100vw;
-  height: 100vh;
+.container--setBlur {
+  width: 100%;
+  height: 100%;
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
-  background: rgba(0, 0, 0, 0.746);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .board {
@@ -41,50 +41,50 @@
   }
 }
 
-.box {
+.block {
   width: 12.5%;
   height: 12.5%;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
-.playerOneScore,
-.playerTwoScore {
-  display: none;
-}
-
-.whiteBlock {
+.block--white {
   background: #e6c9ab;
 }
 
-.blackBlock {
+.block--black {
   background: #96642c;
 }
 
-.piece:hover {
-  cursor: pointer;
-}
-
-.piece:active {
-  box-shadow: 0px 0px 5px 1px black;
-  transition: 0.05s;
-}
-
-.redPiece {
+.pieces {
   display: block;
   width: 70%;
   height: 70%;
-  background: rgb(152, 0, 0);
-  border: 3px solid rgb(104, 0, 0);
-  border-radius: 50px;
+  border-radius: 50%;
+  transition: .3s;
 }
 
-.blackPiece {
-  display: block;
-  width: 70%;
-  height: 70%;
+.piece--black {
   background: rgb(57, 57, 57);
   border: 3px solid rgb(8, 8, 8);
-  border-radius: 50px;
+}
+
+
+.piece--red {
+  background: rgb(152, 0, 0);
+  border: 3px solid rgb(104, 0, 0);
+}
+
+.piece--active{
+  border: 4px solid rgb(228, 228, 228);
+}
+
+.legal--move{
+  width: 40%;
+  height: 40%;
+  background: rgb(227, 227, 227);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgb(238, 238, 238);
 }

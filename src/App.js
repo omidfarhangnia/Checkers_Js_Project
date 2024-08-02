@@ -102,6 +102,7 @@ function App() {
   const [blocks, setBlocks] = useState(blockArray);
   const [pieces, setPieces] = useState(PieceObj);
 
+  // console.log(blocks)
   return (
     <BoardPartContext.Provider
       value={{
@@ -112,7 +113,7 @@ function App() {
         activePiece: activePiece,
         setActivePiece: setActivePiece,
         playerTurn: playerTurn,
-        setPlayerTurn: setPlayerTurn
+        setPlayerTurn: setPlayerTurn,
       }}
     >
       <Page>

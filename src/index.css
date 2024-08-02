@@ -63,7 +63,7 @@
   width: 70%;
   height: 70%;
   border-radius: 50%;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .piece--black {
@@ -71,20 +71,25 @@
   border: 3px solid rgb(8, 8, 8);
 }
 
-
 .piece--red {
   background: rgb(152, 0, 0);
   border: 3px solid rgb(104, 0, 0);
 }
 
-.piece--active{
+.piece--active {
   border: 4px solid rgb(228, 228, 228);
 }
 
-.legal--move{
+.legal--move {
   width: 40%;
   height: 40%;
-  background: rgb(227, 227, 227);
   border-radius: 50%;
+  background: rgb(227, 227, 227);
   box-shadow: 0 0 20px rgb(238, 238, 238);
+  position: absolute;
+}
+
+.kick--enemy {
+  background: rgb(11, 65, 245);
+  box-shadow: 0 0 20px rgb(46, 74, 168);
 }

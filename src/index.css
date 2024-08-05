@@ -93,3 +93,66 @@
   background: rgb(11, 65, 245);
   box-shadow: 0 0 20px rgb(46, 74, 168);
 }
+
+.winnerContainer {
+  width: 80%;
+  aspect-ratio: 1/1;
+  max-width: 600px;
+  border: 2px solid white;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.winnerContainer--header {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+.winnerContainer--winnerName {
+  font-size: 2rem;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.winnerContainer--winnerName > .winner--name {
+  font-weight: bolder;
+  font-size: 1.5rem;
+  width: 6rem;
+  height: 6rem;
+  display: inline-block;
+  border-radius: 50%;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.red--winner {
+  background: red;
+  color: black;
+}
+
+.black--winner {
+  background: black;
+  color: white;
+}
+
+.winnerContainer--data {
+  font-size: 1.2rem;
+  margin-top: 20px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+.winnerContainer--data > span {
+  font-size: 2rem;
+}

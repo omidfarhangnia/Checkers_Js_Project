@@ -1,6 +1,9 @@
 import { useContext } from "react";
 import { BoardPartContext } from "../App";
 
+const redKingBlocks = new Set([57, 59, 61, 63]);
+const blackKingBlocks = new Set([2, 4, 6, 8]);
+
 function ShowLegalMove({ block, handleMovePiece, handleRemovePiece }) {
   const boardContext = useContext(BoardPartContext);
   let content = "";
@@ -50,21 +53,58 @@ function ShowLegalMove({ block, handleMovePiece, handleRemovePiece }) {
           boardContext.pieces[boardContext.activePiece].color
         )
           return;
-
         if (boardContext.pieces[boardContext.activePiece].isKing === true) {
           if (
-            (block.num === boardContext.activePiece + 7 &&
-              boardContext.blocks[boardContext.activePiece + 14 - 1]
-                .isFilled === false) ||
-            (block.num === boardContext.activePiece + 9 &&
-              boardContext.blocks[boardContext.activePiece + 18 - 1]
-                .isFilled === false) ||
-            (block.num === boardContext.activePiece - 7 &&
-              boardContext.blocks[boardContext.activePiece - 14 - 1]
-                .isFilled === false) ||
-            (block.num === boardContext.activePiece - 9 &&
-              boardContext.blocks[boardContext.activePiece - 18 - 1]
-                .isFilled === false)
+            boardContext.blocks[boardContext.activePiece + 14 - 1] !==
+              undefined &&
+            block.num === boardContext.activePiece + 7 &&
+            boardContext.blocks[boardContext.activePiece + 14 - 1].isFilled ===
+              false
+          ) {
+            content = (
+              <span
+                className="legal--move kick--enemy"
+                onClick={handleRemovePiece}
+              ></span>
+            );
+          }
+
+          if (
+            boardContext.blocks[boardContext.activePiece + 18 - 1] !==
+              undefined &&
+            block.num === boardContext.activePiece + 9 &&
+            boardContext.blocks[boardContext.activePiece + 18 - 1].isFilled ===
+              false
+          ) {
+            content = (
+              <span
+                className="legal--move kick--enemy"
+                onClick={handleRemovePiece}
+              ></span>
+            );
+          }
+
+          if (
+            boardContext.blocks[boardContext.activePiece - 18 - 1] !==
+              undefined &&
+            block.num === boardContext.activePiece - 9 &&
+            boardContext.blocks[boardContext.activePiece - 18 - 1].isFilled ===
+              false
+          ) {
+            content = (
+              <span
+                className="legal--move kick--enemy"
+                onClick={handleRemovePiece}
+              ></span>
+            );
+          }
+
+          if (
+            boardContext.blocks[boardContext.activePiece - 14 - 1] !==
+              undefined &&
+            block.num === boardContext.activePiece - 7 &&
+            boardContext.blocks[boardContext.activePiece - 14 - 1].isFilled ===
+              false
           ) {
             content = (
               <span
@@ -78,8 +118,10 @@ function ShowLegalMove({ block, handleMovePiece, handleRemovePiece }) {
         ) {
           if (boardContext.pieces[boardContext.activePiece].color === "red") {
             if (
+              boardContext.blocks[boardContext.activePiece + 14 - 1] !==
+                undefined &&
               boardContext.blocks[boardContext.activePiece + 14 - 1].color !==
-              "white"
+                "white"
             ) {
               if (
                 block.num === boardContext.activePiece + 7 &&
@@ -96,8 +138,10 @@ function ShowLegalMove({ block, handleMovePiece, handleRemovePiece }) {
             }
 
             if (
+              boardContext.blocks[boardContext.activePiece + 18 - 1] !==
+                undefined &&
               boardContext.blocks[boardContext.activePiece + 18 - 1].color !==
-              "white"
+                "white"
             ) {
               if (
                 block.num === boardContext.activePiece + 9 &&
@@ -116,8 +160,10 @@ function ShowLegalMove({ block, handleMovePiece, handleRemovePiece }) {
             boardContext.pieces[boardContext.activePiece].color === "black"
           ) {
             if (
+              boardContext.blocks[boardContext.activePiece - 14 - 1] !==
+                undefined &&
               boardContext.blocks[boardContext.activePiece - 14 - 1].color !==
-              "white"
+                "white"
             ) {
               if (
                 block.num === boardContext.activePiece - 7 &&
@@ -134,8 +180,10 @@ function ShowLegalMove({ block, handleMovePiece, handleRemovePiece }) {
             }
 
             if (
+              boardContext.blocks[boardContext.activePiece - 18 - 1] !==
+                undefined &&
               boardContext.blocks[boardContext.activePiece - 18 - 1].color !==
-              "white"
+                "white"
             ) {
               if (
                 block.num === boardContext.activePiece - 9 &&
@@ -179,11 +227,29 @@ function Piece({ block }) {
     boardContext.setActivePiece(block.num);
   }
 
+  function giveKingValue(pieceColor) {
+    let kingValue = false;
+
+    if (
+      (pieceColor === "red" && redKingBlocks.has(block.num)) ||
+      (pieceColor === "black" && blackKingBlocks.has(block.num))
+    ) {
+      kingValue = true;
+    }
+
+    return kingValue;
+  }
+
   function handleMovePiece() {
     // making a new blocks array
     let newPieceObj = boardContext.pieces;
+    let kingValue = boardContext.pieces[boardContext.activePiece].isKing
+      ? true
+      : giveKingValue(boardContext.playerTurn);
+
     newPieceObj[block.num] = {
       ...newPieceObj[boardContext.activePiece],
+      isKing: kingValue,
       isActive: false,
     };
     delete newPieceObj[boardContext.activePiece];
@@ -202,34 +268,41 @@ function Piece({ block }) {
   }
 
   function handleCheckWinner() {
-    const piecesNumbers = { red: 0, black: 0 };
+    const piecesNumber = {
+      red: { number: 0, kings: 0 },
+      black: { number: 0, kings: 0 },
+    };
     const piecesValues = Object.values(boardContext.pieces);
 
     for (var i = 0; i < piecesValues.length; i++) {
       if (piecesValues[i].color === "black") {
-        piecesNumbers.black += 1;
+        piecesNumber.black.number++;
+        if (piecesValues[i].isKing) piecesNumber.black.kings++;
       } else {
-        piecesNumbers.red += 1;
+        piecesNumber.red.number++;
+        if (piecesValues[i].isKing) piecesNumber.red.kings++;
       }
     }
 
-    if (piecesNumbers.red === 0 || piecesNumbers.black === 0) {
-      alert("we have winnner");
+    if (piecesNumber.red.number === 0) {
+      boardContext.setWinner({
+        name: "black",
+        RemianedKingsNumber: piecesNumber.black.kings,
+        RemainedPiecesNumber: piecesNumber.black.number,
+      });
+    } else if (piecesNumber.black.number === 0) {
+      boardContext.setWinner({
+        name: "red",
+        RemianedKingsNumber: piecesNumber.red.kings,
+        RemainedPiecesNumber: piecesNumber.red.number,
+      });
     }
   }
 
   function handleRemovePiece() {
     let newBlockNum = 0;
-    if (boardContext.playerTurn === "red") {
-      newBlockNum =
-        boardContext.activePiece +
-        2 * Math.abs(boardContext.activePiece - block.num);
-    } else {
-      newBlockNum =
-        boardContext.activePiece -
-        2 * Math.abs(boardContext.activePiece - block.num);
-    }
-
+    newBlockNum =
+      boardContext.activePiece - 2 * (boardContext.activePiece - block.num);
     // making a new blocks array
     let newPieceObj = boardContext.pieces;
     newPieceObj[newBlockNum] = {

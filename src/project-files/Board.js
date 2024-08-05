@@ -303,7 +303,7 @@ function Piece({ block }) {
     let newBlockNum = 0;
     newBlockNum =
       boardContext.activePiece - 2 * (boardContext.activePiece - block.num);
-    // making a new blocks array
+    // making a new pieces array
     let newPieceObj = boardContext.pieces;
     newPieceObj[newBlockNum] = {
       ...newPieceObj[boardContext.activePiece],
@@ -313,7 +313,7 @@ function Piece({ block }) {
     delete newPieceObj[block.num];
     boardContext.setPieces({ ...newPieceObj });
 
-    // making a new pieces object
+    // making a new blocks object
     let newBlockArray = boardContext.blocks;
     newBlockArray[boardContext.activePiece - 1].isFilled = false;
     newBlockArray[block.num - 1].isFilled = false;
@@ -331,10 +331,6 @@ function Piece({ block }) {
 
   return (
     <div className={`block block--${block.color}`}>
-      <span style={{ position: "absolute", top: "0", left: "0" }}>
-        {block.num}
-      </span>
-
       <ShowLegalMove
         block={block}
         handleMovePiece={handleMovePiece}
